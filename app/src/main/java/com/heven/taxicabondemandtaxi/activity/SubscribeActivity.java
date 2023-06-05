@@ -101,13 +101,7 @@ public class SubscribeActivity extends AppCompatActivity {
     }
 
     private void launchHomeScreen() {
-        Intent intent;
-        if(account_type.equals("customer")) {
-            intent = new Intent(SubscribeActivity.this, MainActivity.class);
-        }else {
-            intent = new Intent(SubscribeActivity.this, DriverVehicleActivity.class);
-            intent.putExtra("id_driver",id_driver);
-        }
+        Intent intent = new Intent(SubscribeActivity.this, MainActivity.class);
         intent.putExtra("fragment_name", "");
         startActivity(intent);
         finish();
@@ -375,8 +369,6 @@ public class SubscribeActivity extends AppCompatActivity {
 //        M.setCoutByKm(user.getCost(),context);
         M.setCurrentFragment("",context);
         M.setCurrency(user.getCurrency(),context);
-        if(!user.getUser_cat().equals("user_app"))
-            M.setStatutConducteur(user.getStatut_online(),context);
 
         M.setVehicleBrand(user.getVehicle_brand(),context);
         M.setVehicleColor(user.getVehicle_color(),context);

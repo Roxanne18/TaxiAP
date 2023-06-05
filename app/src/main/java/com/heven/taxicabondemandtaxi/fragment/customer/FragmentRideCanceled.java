@@ -66,7 +66,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FragmentRideCanceled extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
+public class
+FragmentRideCanceled extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener,
         GoogleMap.OnMyLocationClickListener,
         GoogleMap.OnMyLocationButtonClickListener{

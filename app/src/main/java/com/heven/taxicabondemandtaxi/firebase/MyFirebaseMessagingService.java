@@ -25,17 +25,11 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.heven.taxicabondemandtaxi.R;
 import com.heven.taxicabondemandtaxi.activity.MainActivity;
-import com.heven.taxicabondemandtaxi.fragment.driver.FragmentDashboard;
 import com.heven.taxicabondemandtaxi.fragment.customer.FragmentRideCanceled;
-import com.heven.taxicabondemandtaxi.fragment.driver.FragmentRideCanceledDriver;
 import com.heven.taxicabondemandtaxi.fragment.customer.FragmentRideCompleted;
-import com.heven.taxicabondemandtaxi.fragment.driver.FragmentRideCompletedDriver;
 import com.heven.taxicabondemandtaxi.fragment.customer.FragmentRideConfirmed;
-import com.heven.taxicabondemandtaxi.fragment.driver.FragmentRideConfirmedDriver;
 import com.heven.taxicabondemandtaxi.fragment.customer.FragmentRideNew;
-import com.heven.taxicabondemandtaxi.fragment.driver.FragmentRideNewDriver;
 import com.heven.taxicabondemandtaxi.fragment.customer.FragmentRideOnRide;
-import com.heven.taxicabondemandtaxi.fragment.driver.FragmentRideOnRideDriver;
 import com.heven.taxicabondemandtaxi.model.M;
 
 import org.json.JSONException;
@@ -182,20 +176,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             }
                         }
                     });
-                }
-            }else if(M.getUserCategorie(getBaseContext()).equals("conducteur")){
-                if (MainActivity.getCurrentFragment().getTag().equals("dashboard") && FragmentDashboard.connectionDetector.isConnectingToInternet()) {
-                    new FragmentDashboard.getDashboard().execute();
-                }else if (MainActivity.getCurrentFragment().getTag().equals("new") && FragmentRideNewDriver.connectionDetector.isConnectingToInternet()) {
-                    new FragmentRideNewDriver.getRide().execute();
-                } else if (MainActivity.getCurrentFragment().getTag().equals("confirmed") && FragmentRideConfirmedDriver.connectionDetector.isConnectingToInternet()) {
-                    new FragmentRideConfirmedDriver.getRideConfirmed().execute();
-                } else if (MainActivity.getCurrentFragment().getTag().equals("on_ride") && FragmentRideOnRideDriver.connectionDetector.isConnectingToInternet()) {
-                    new FragmentRideOnRideDriver.getRideOnRide().execute();
-                } else if (MainActivity.getCurrentFragment().getTag().equals("completed") && FragmentRideCompletedDriver.connectionDetector.isConnectingToInternet()) {
-                    new FragmentRideCompletedDriver.getRideCompleted().execute();
-                } else if (MainActivity.getCurrentFragment().getTag().equals("canceled") && FragmentRideCanceledDriver.connectionDetector.isConnectingToInternet()) {
-                    new FragmentRideCanceledDriver.getRideCanceled().execute();
                 }
             }
         }

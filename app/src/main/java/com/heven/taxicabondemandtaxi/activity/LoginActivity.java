@@ -201,34 +201,7 @@ public class LoginActivity extends AppCompatActivity {
                                 String etat = msg.getString("etat");
                                 if(etat.equals("1")){
                                     JSONObject user = json.getJSONObject("user");
-                                    if(user.getString("user_cat").equals("conducteur")){
-                                        if(user.getString("statut_vehicule").equals("no")){
-                                            Intent intent = new Intent(LoginActivity.this, DriverVehicleActivity.class);
-                                            intent.putExtra("id_driver",user.getString("id"));
-                                            startActivity(intent);
-                                        }else if(user.getString("photo").equals("")){
-                                            Intent intent = new Intent(LoginActivity.this, ChoosePhotoActivity.class);
-                                            intent.putExtra("id_driver",user.getString("id"));
-                                            startActivity(intent);
-                                        }else if(user.getString("statut_nic").equals("no")){
-                                            Intent intent = new Intent(LoginActivity.this, ChooseNIActivity.class);
-                                            intent.putExtra("id_driver",user.getString("id"));
-                                            startActivity(intent);
-                                        }else if(user.getString("statut_licence").equals("no")){
-                                            Intent intent = new Intent(LoginActivity.this, ChooseLicenceActivity.class);
-                                            intent.putExtra("id_driver",user.getString("id"));
-                                            startActivity(intent);
-                                        }else{
-                                            saveProfile(new User(user.getString("id"),user.getString("nom"),user.getString("prenom"),user.getString("phone")
-                                                    ,user.getString("email"),user.getString("statut"),user.getString("login_type"),user.getString("tonotify"),user.getString("device_id"),
-                                                    user.getString("fcm_id"),user.getString("creer"),user.getString("modifier"),user.getString("photo_path"),user.getString("user_cat"),user.getString("online"),user.getString("currency")
-                                                    ,user.getString("statut_licence"),user.getString("statut_nic"),user.getString("brand"),user.getString("model"),user.getString("color"),user.getString("numberplate"),user.getString("statut_vehicule"),user.getString("country")));
-
-                                            input_phone.setText("");
-                                            password.setText("");
-                                            launchHomeScreen();
-                                        }
-                                    }else{
+                                    if(!user.getString("user_cat").equals("conducteur")){
                                         saveProfile(new User(user.getString("id"),user.getString("nom"),user.getString("prenom"),user.getString("phone")
                                                 ,user.getString("email"),user.getString("statut"),user.getString("login_type"),user.getString("tonotify"),user.getString("device_id"),
                                                 user.getString("fcm_id"),user.getString("creer"),user.getString("modifier"),user.getString("photo_path"),
@@ -238,6 +211,8 @@ public class LoginActivity extends AppCompatActivity {
                                         input_phone.setText("");
                                         password.setText("");
                                         launchHomeScreen();
+                                    }else{
+                                        Toast.makeText(context, context.getResources().getString(R.string.this_account_does_not_exist), Toast.LENGTH_SHORT).show();
                                     }
                                 }else if(etat.equals("0")){
                                     Toast.makeText(context, context.getResources().getString(R.string.this_account_does_not_exist), Toast.LENGTH_SHORT).show();

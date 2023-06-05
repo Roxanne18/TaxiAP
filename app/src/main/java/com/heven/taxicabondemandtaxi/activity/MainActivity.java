@@ -85,25 +85,16 @@ import com.heven.taxicabondemandtaxi.fragment.FragmentMyWallet;
 import com.heven.taxicabondemandtaxi.fragment.customer.FragmentFavoriteRide;
 import com.heven.taxicabondemandtaxi.fragment.customer.FragmentLocationVehicule;
 import com.heven.taxicabondemandtaxi.fragment.customer.FragmentMyLocationVehicule;
-import com.heven.taxicabondemandtaxi.fragment.driver.FragmentDashboard;
 import com.heven.taxicabondemandtaxi.fragment.customer.FragmentHome;
 import com.heven.taxicabondemandtaxi.fragment.FragmentProfile;
 import com.heven.taxicabondemandtaxi.fragment.customer.FragmentRideBookingConfirmed;
-import com.heven.taxicabondemandtaxi.fragment.driver.FragmentRideBookingConfirmedDriver;
 import com.heven.taxicabondemandtaxi.fragment.customer.FragmentRideBookingNew;
-import com.heven.taxicabondemandtaxi.fragment.driver.FragmentRideBookingNewDriver;
 import com.heven.taxicabondemandtaxi.fragment.customer.FragmentRideBookingCanceled;
-import com.heven.taxicabondemandtaxi.fragment.driver.FragmentRideBookingRejectedDriver;
 import com.heven.taxicabondemandtaxi.fragment.customer.FragmentRideCanceled;
-import com.heven.taxicabondemandtaxi.fragment.driver.FragmentRideCanceledDriver;
 import com.heven.taxicabondemandtaxi.fragment.customer.FragmentRideCompleted;
-import com.heven.taxicabondemandtaxi.fragment.driver.FragmentRideCompletedDriver;
 import com.heven.taxicabondemandtaxi.fragment.customer.FragmentRideConfirmed;
-import com.heven.taxicabondemandtaxi.fragment.driver.FragmentRideConfirmedDriver;
 import com.heven.taxicabondemandtaxi.fragment.customer.FragmentRideNew;
-import com.heven.taxicabondemandtaxi.fragment.driver.FragmentRideNewDriver;
 import com.heven.taxicabondemandtaxi.fragment.customer.FragmentRideOnRide;
-import com.heven.taxicabondemandtaxi.fragment.driver.FragmentRideOnRideDriver;
 import com.heven.taxicabondemandtaxi.model.DrawerPojo;
 import com.heven.taxicabondemandtaxi.model.M;
 import com.heven.taxicabondemandtaxi.settings.AppConst;
@@ -134,11 +125,11 @@ public class MainActivity extends AppCompatActivity implements TaskLoadedCallbac
     public static Context context;
     private static ConnectionDetector connectionDetector;
     DrawerAdapter drawerAdapter;
-    public static ArrayList<DrawerPojo> list=new ArrayList<>();
+    public static ArrayList<DrawerPojo> list = new ArrayList<>();
     public static PrefManager prefManager;
     private FrameLayout drawer_conducteur;
     private LinearLayout drawer_user;
-    public static TextView user_name, user_phone,statut_conducteur, balance;
+    public static TextView user_name, user_phone, statut_conducteur, balance;
     private SwitchCompat switch_statut;
     private static final int LOCATION_REQUEST_CODE = 101;
     public static FragmentManager fragmentManager;
@@ -163,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements TaskLoadedCallbac
     private static final long UPDATE_INTERVAL = 5000, FASTEST_INTERVAL = 5000; // = 5 seconds
     private LocationManager locationManager;
     private String provider;
-    public static String amount,id_ride,position,id_driver,note_,img,comment;
+    public static String amount, id_ride, position, id_driver, note_, img, comment;
 
     private static final int PAYPAL_REQUEST_CODE = 7171;
     private static PayPalConfiguration config = new PayPalConfiguration()
@@ -185,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements TaskLoadedCallbac
 
         context = MainActivity.this;
         activity = this;
-        connectionDetector=new ConnectionDetector(context);
+        connectionDetector = new ConnectionDetector(context);
         prefManager = new PrefManager(this);
 
         title = (TextView) findViewById(R.id.title);
@@ -195,30 +186,22 @@ public class MainActivity extends AppCompatActivity implements TaskLoadedCallbac
         Bundle objetbundle = this.getIntent().getExtras();
         String fragment_name = objetbundle.getString("fragment_name");
 
-        if(!fragment_name.equals("")){
+        if (!fragment_name.equals("")) {
             notification = true;
-            if(M.getUserCategorie(context).equals("user_app")){
-                if(fragment_name.equals("ridenew"))
-                    selectItem(2);
-                else if(fragment_name.equals("rideconfirmed_book"))
-                    selectItem(3);
+            if (fragment_name.equals("ridenew"))
+                selectItem(2);
+            else if (fragment_name.equals("rideconfirmed_book"))
+                selectItem(3);
                 /*else if(fragment_name.equals("rideconfirmed")) {
 
-                }*/else if(fragment_name.equals("rideonride"))
-                    selectItem(4);
-                else if(fragment_name.equals("ridecompleted"))
-                    selectItem(5);
-                else if(fragment_name.equals("riderejected"))
-                    selectItem(6);
+                }*/
+            else if (fragment_name.equals("rideonride"))
+                selectItem(4);
+            else if (fragment_name.equals("ridecompleted"))
+                selectItem(5);
+            else if (fragment_name.equals("riderejected"))
+                selectItem(6);
 //                    fragmentManager.setBackStackEntryCount();
-            }else{
-                if(fragment_name.equals("ridenewrider"))
-                    selectItem(1);
-                else if(fragment_name.equals("ridecompleted"))
-                    selectItem(4);
-                /*else if(fragment_name.equals("ridecanceledrider"))
-                    selectItem(1);*/
-            }
         }
 
         balance = (TextView) findViewById(R.id.balance);
@@ -248,39 +231,17 @@ public class MainActivity extends AppCompatActivity implements TaskLoadedCallbac
         setDrawer();
 
         if (savedInstanceState == null) {
-            if(fragment_name.equals(""))
+            if (fragment_name.equals(""))
                 selectItem(0);
-        }
-
-        if(!M.getUserCategorie(context).equals("user_app")) {
-            if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
-//            return;
-            }
-
-            if(!isLocationEnabled(context))
-                showMessageEnabledGPS();
-        }
-
-        if(!M.getUserCategorie(context).equals("user_app")) {
-            balance.setVisibility(View.GONE);
-            if (M.getStatutConducteur(context).equals("yes")) {
-                switch_statut.setChecked(true);
-                statut_conducteur.setText("enabled");
-            } else {
-                switch_statut.setChecked(false);
-                statut_conducteur.setText("disabled");
-            }
         }
 
         switch_statut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(switch_statut.isChecked()) {
+                if (switch_statut.isChecked()) {
                     M.showLoadingDialog(context);
                     new changerStatut().execute("yes");
-                }else {
+                } else {
                     M.showLoadingDialog(context);
                     new changerStatut().execute("no");
                 }
@@ -288,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements TaskLoadedCallbac
         });
 
         // loading model cover using Glide library
-        if(!M.getPhoto(context).equals("")) {
+        if (!M.getPhoto(context).equals("")) {
             // loading model cover using Glide library
             Glide.with(context).load(AppConst.Server_url + "images/app_user/" + M.getPhoto(context))
                     .skipMemoryCache(false)
@@ -307,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements TaskLoadedCallbac
                         }
                     })
                     .into(user_photo);
-        }else{
+        } else {
             user_photo.setImageDrawable(getResources().getDrawable(R.drawable.user_profile));
         }
 
@@ -657,10 +618,10 @@ public class MainActivity extends AppCompatActivity implements TaskLoadedCallbac
         this.currentLocation = location;
 //        Toast.makeText(context, "Ok", Toast.LENGTH_SHORT).show();
 
-        if (currentLocation != null) {
-            if(!M.getUserCategorie(context).equals("user_app"))
-                new setCurrentLocation().execute(String.valueOf(location.getLatitude()),String.valueOf(location.getLongitude()));
-        }
+//        if (currentLocation != null) {
+//            if(!M.getUserCategorie(context).equals("user_app"))
+//                new setCurrentLocation().execute(String.valueOf(location.getLatitude()),String.valueOf(location.getLongitude()));
+//        }
     }
 
     /** MAJ de la position d'un conducteur **/
@@ -859,20 +820,19 @@ public class MainActivity extends AppCompatActivity implements TaskLoadedCallbac
 
     @Override
     public void onTaskDone(Object... values) {
-        if(M.getUserCategorie(context).equals("user_app")) {
-            if (M.getCurrentFragment(context).equals("home")) {
-                if (FragmentHome.currentPolyline != null)
-                    FragmentHome.currentPolyline.remove();
-                FragmentHome.currentPolyline = FragmentHome.mMap.addPolyline((PolylineOptions) values[0]);
-                FragmentHome.currentPolyline.setColor(Color.DKGRAY);
+        if (M.getCurrentFragment(context).equals("home")) {
+            if (FragmentHome.currentPolyline != null)
+                FragmentHome.currentPolyline.remove();
+            FragmentHome.currentPolyline = FragmentHome.mMap.addPolyline((PolylineOptions) values[0]);
+            FragmentHome.currentPolyline.setColor(Color.DKGRAY);
 
-                LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                LatLng latLng1 = new LatLng(FragmentHome.departLocationReservation.getLatitude(), FragmentHome.departLocationReservation.getLongitude());
-                LatLng latLng2 = new LatLng(FragmentHome.destinationLocationReservation.getLatitude(), FragmentHome.destinationLocationReservation.getLongitude());
-                builder.include(latLng1);
-                builder.include(latLng2);
-                FragmentHome.mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 17));
-            }/* else if (M.getCurrentFragment(context).equals("mes_requetes_accueil")){
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            LatLng latLng1 = new LatLng(FragmentHome.departLocationReservation.getLatitude(), FragmentHome.departLocationReservation.getLongitude());
+            LatLng latLng2 = new LatLng(FragmentHome.destinationLocationReservation.getLatitude(), FragmentHome.destinationLocationReservation.getLongitude());
+            builder.include(latLng1);
+            builder.include(latLng2);
+            FragmentHome.mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 17));
+        }/* else if (M.getCurrentFragment(context).equals("mes_requetes_accueil")){
                 if (FragmentHome.currentPolyline != null)
                     FragmentHome.currentPolyline.remove();
                 FragmentHome.currentPolyline = FragmentHome.mMap.addPolyline((PolylineOptions) values[0]);
@@ -909,46 +869,14 @@ public class MainActivity extends AppCompatActivity implements TaskLoadedCallbac
                 builder2.include(latLng4);
                 BottomSheetFragmentMyRide.mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder2.build(), 100));
             }*/
-        }else{
-            /*if(M.getCurrentFragment(context).equals("requete")){
-                if (BottomSheetFragmentRide.currentPolyline != null)
-                    BottomSheetFragmentRide.currentPolyline.remove();
-                BottomSheetFragmentRide.currentPolyline = BottomSheetFragmentRide.mMap.addPolyline((PolylineOptions) values[0]);
-                BottomSheetFragmentRide.currentPolyline.setVehicleColor(Color.DKGRAY);
-
-                LatLngBounds.Builder builder2 = new LatLngBounds.Builder();
-                LatLng latLng3 = new LatLng(BottomSheetFragmentRide.clientLocation.getLatitude(),BottomSheetFragmentRide.clientLocation.getLongitude());
-                LatLng latLng4 = new LatLng(BottomSheetFragmentRide.destinationLocation.getLatitude(),BottomSheetFragmentRide.destinationLocation.getLongitude());
-                builder2.include(latLng3);
-                builder2.include(latLng4);
-//                BottomSheetFragmentRide.mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder2.build(), 17));
-            }else{
-                if (BottomSheetFragmentCourse.currentPolyline != null)
-                    BottomSheetFragmentCourse.currentPolyline.remove();
-                BottomSheetFragmentCourse.currentPolyline = BottomSheetFragmentCourse.mMap.addPolyline((PolylineOptions) values[0]);
-                BottomSheetFragmentCourse.currentPolyline.setVehicleColor(Color.DKGRAY);
-
-                LatLngBounds.Builder builder2 = new LatLngBounds.Builder();
-                LatLng latLng3 = new LatLng(BottomSheetFragmentCourse.clientLocation.getLatitude(),BottomSheetFragmentCourse.clientLocation.getLongitude());
-                LatLng latLng4 = new LatLng(BottomSheetFragmentCourse.destinationLocation.getLatitude(),BottomSheetFragmentCourse.destinationLocation.getLongitude());
-                builder2.include(latLng3);
-                builder2.include(latLng4);
-//                BottomSheetFragmentCourse.mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder2.build(), 17));
-            }*/
-        }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case LOCATION_REQUEST_CODE: {
-                if(!M.getUserCategorie(context).equals("user_app")) {
-                    if(!isLocationEnabled(context))
-                        showMessageEnabledGPS();
-                }else{
-                    if(!isLocationEnabled(context))
-                        showMessageEnabledGPSClient();
-                }
+                if(!isLocationEnabled(context))
+                    showMessageEnabledGPSClient();
                 return;
             }
 
@@ -1015,57 +943,31 @@ public class MainActivity extends AppCompatActivity implements TaskLoadedCallbac
     public void setDrawer() {
         mDrawerLayout.setFocusable(false);
         list.clear();
-        if(M.getUserCategorie(context).equals("user_app")){
-            drawer_conducteur.setVisibility(View.GONE);
-            switch_statut.setVisibility(View.GONE);
-            drawer_user.setVisibility(View.VISIBLE);
-            user_name.setText(M.getPrenom(context)+" "+M.getNom(context));
-            user_phone.setText(M.getPhone(context));
+        drawer_conducteur.setVisibility(View.GONE);
+        switch_statut.setVisibility(View.GONE);
+        drawer_user.setVisibility(View.VISIBLE);
+        user_name.setText(M.getPrenom(context)+" "+M.getNom(context));
+        user_phone.setText(M.getPhone(context));
 
-            list.add(new DrawerPojo(1, "", getString(R.string.item_home), R.drawable.ic_home_outline));
-            list.add(new DrawerPojo(13, "", getString(R.string.item_favorite), R.drawable.ic_star_outline));
-            list.add(new DrawerPojo(2, "", getString(R.string.item_new), R.drawable.ic_new));
-            list.add(new DrawerPojo(3, "", getString(R.string.item_confirmed), R.drawable.ic_confirm));
-            list.add(new DrawerPojo(4, "", getString(R.string.item_onride), R.drawable.ic_completed));
-            list.add(new DrawerPojo(5, "", getString(R.string.item_completed), R.drawable.ic_rent_outline));
-            list.add(new DrawerPojo(6, "", getString(R.string.item_canceled), R.drawable.ic_error));
+        list.add(new DrawerPojo(1, "", getString(R.string.item_home), R.drawable.ic_home_outline));
+        list.add(new DrawerPojo(13, "", getString(R.string.item_favorite), R.drawable.ic_star_outline));
+        list.add(new DrawerPojo(2, "", getString(R.string.item_new), R.drawable.ic_new));
+        list.add(new DrawerPojo(3, "", getString(R.string.item_confirmed), R.drawable.ic_confirm));
+        list.add(new DrawerPojo(4, "", getString(R.string.item_onride), R.drawable.ic_completed));
+        list.add(new DrawerPojo(5, "", getString(R.string.item_completed), R.drawable.ic_rent_outline));
+        list.add(new DrawerPojo(6, "", getString(R.string.item_canceled), R.drawable.ic_error));
 
-            list.add(new DrawerPojo(10, "", getString(R.string.item_new_booking), R.drawable.ic_calendar));
-            list.add(new DrawerPojo(11, "", getString(R.string.item_confirmed_booking), R.drawable.ic_calendar_check));
-            list.add(new DrawerPojo(12, "", getString(R.string.item_canceled_booking), R.drawable.ic_calendar_cancel));
-            list.add(new DrawerPojo(14, "", getString(R.string.item_louer_vehicule), R.drawable.ic_rent_outline));
-            list.add(new DrawerPojo(15, "", getString(R.string.item_vehicule_loue), R.drawable.ic_rent_outline));
-            list.add(new DrawerPojo(16, "", getString(R.string.item_wallet), R.drawable.ic_wallet));
-            list.add(new DrawerPojo(7, "", getString(R.string.item_profile), R.drawable.ic_profile_outline));
-            list.add(new DrawerPojo(0, "", getString(R.string.item_logout), R.drawable.ic_logout_outline));
-            list.add(new DrawerPojo(8, "", "divider", 0));
-            list.add(new DrawerPojo(9, "", getString(R.string.item_help), 0));
-            list.add(new DrawerPojo(17, "", getString(R.string.item_contact_us), R.drawable.ic_assistance_outline));
-        }else{
-            drawer_conducteur.setVisibility(View.VISIBLE);
-            switch_statut.setVisibility(View.VISIBLE);
-            drawer_user.setVisibility(View.GONE);
-            drawer_user.setVisibility(View.GONE);
-            user_name.setText("");
-            user_phone.setText("");
-
-            list.add(new DrawerPojo(1, "", getString(R.string.item_dashboard), R.drawable.ic_dashboard));
-            list.add(new DrawerPojo(2, "", getString(R.string.item_new), R.drawable.ic_new));
-            list.add(new DrawerPojo(3, "", getString(R.string.item_confirmed), R.drawable.ic_confirm));
-            list.add(new DrawerPojo(4, "", getString(R.string.item_onride), R.drawable.ic_completed));
-            list.add(new DrawerPojo(5, "", getString(R.string.item_completed), R.drawable.ic_completed));
-            list.add(new DrawerPojo(6, "", getString(R.string.item_rejected), R.drawable.ic_error));
-
-            list.add(new DrawerPojo(10, "", getString(R.string.item_new_booking), R.drawable.ic_calendar));
-            list.add(new DrawerPojo(11, "", getString(R.string.item_confirmed_booking), R.drawable.ic_calendar_check));
-            list.add(new DrawerPojo(12, "", getString(R.string.item_rejected_booking), R.drawable.ic_calendar_cancel));
-//            list.add(new DrawerPojo(13, "", getString(R.string.item_wallet), R.drawable.ic_wallet));
-            list.add(new DrawerPojo(7, "", getString(R.string.item_profile), R.drawable.ic_profile_outline));
-            list.add(new DrawerPojo(0, "", getString(R.string.item_logout), R.drawable.ic_logout_outline));
-            list.add(new DrawerPojo(8, "", "divider", 0));
-            list.add(new DrawerPojo(9, "", getString(R.string.item_help), 0));
-            list.add(new DrawerPojo(13, "", getString(R.string.item_contact_us), R.drawable.ic_assistance_outline));
-        }
+        list.add(new DrawerPojo(10, "", getString(R.string.item_new_booking), R.drawable.ic_calendar));
+        list.add(new DrawerPojo(11, "", getString(R.string.item_confirmed_booking), R.drawable.ic_calendar_check));
+        list.add(new DrawerPojo(12, "", getString(R.string.item_canceled_booking), R.drawable.ic_calendar_cancel));
+        list.add(new DrawerPojo(14, "", getString(R.string.item_louer_vehicule), R.drawable.ic_rent_outline));
+        list.add(new DrawerPojo(15, "", getString(R.string.item_vehicule_loue), R.drawable.ic_rent_outline));
+        list.add(new DrawerPojo(16, "", getString(R.string.item_wallet), R.drawable.ic_wallet));
+        list.add(new DrawerPojo(7, "", getString(R.string.item_profile), R.drawable.ic_profile_outline));
+        list.add(new DrawerPojo(0, "", getString(R.string.item_logout), R.drawable.ic_logout_outline));
+        list.add(new DrawerPojo(8, "", "divider", 0));
+        list.add(new DrawerPojo(9, "", getString(R.string.item_help), 0));
+        list.add(new DrawerPojo(17, "", getString(R.string.item_contact_us), R.drawable.ic_assistance_outline));
 
         drawerAdapter=new DrawerAdapter(list,context);
         mDrawerList.setAdapter(drawerAdapter);
@@ -1155,52 +1057,51 @@ public class MainActivity extends AppCompatActivity implements TaskLoadedCallbac
         String tag = "home";
 
 //        Toast.makeText(context, ""+pos, Toast.LENGTH_SHORT).show();
-        if(M.getUserCategorie(context).equals("user_app")){
-            if(pos==1) {
-                fragment = new FragmentHome();
-                tag = "home";
-            }else if(pos==2){
-                fragment=new FragmentRideNew();
-                tag = "new";
-            }else if(pos==3){
-                fragment=new FragmentRideConfirmed();
-                tag = "confirmed";
-            }else if(pos==4){
-                fragment=new FragmentRideOnRide();
-                tag = "on_ride";
-            }else if(pos==5){
-                fragment=new FragmentRideCompleted();
-                tag = "completed";
-            }else if(pos==6){
-                fragment=new FragmentRideCanceled();
-                tag = "canceled";
-            }else if(pos==7){
-                fragment=new FragmentProfile();
-                tag = "profil";
-            }else if(pos==10){
-                fragment=new FragmentRideBookingNew();
-                tag = "new_book";
-            }else if(pos==11){
-                fragment=new FragmentRideBookingConfirmed();
-                tag = "confrimed_book";
-            }else if(pos==12){
-                fragment=new FragmentRideBookingCanceled();
-                tag = "rejected_book";
-            }else if(pos==13){
-                fragment=new FragmentFavoriteRide();
-                tag = "rejected_book";
-            }else if(pos==14){
-                fragment=new FragmentLocationVehicule();
-                tag = "vehicle_rent";
-            }else if(pos==15){
-                fragment=new FragmentMyLocationVehicule();
-                tag = "vehicle_rented";
-            }else if(pos==16){
-                fragment=new FragmentMyWallet();
-                tag = "my_wallet";
-            }else if(pos==17){
-                openBrowser(context, "https://codecanyon.net/item/taxi-cab-on-demand-taxi/25137864");
-            }/*else if(pos==10){
+        if(pos==1) {
+            fragment = new FragmentHome();
+            tag = "home";
+        }else if(pos==2){
+            fragment=new FragmentRideNew();
+            tag = "new";
+        }else if(pos==3){
+            fragment=new FragmentRideConfirmed();
+            tag = "confirmed";
+        }else if(pos==4){
+            fragment=new FragmentRideOnRide();
+            tag = "on_ride";
+        }else if(pos==5){
+            fragment=new FragmentRideCompleted();
+            tag = "completed";
+        }else if(pos==6){
+            fragment=new FragmentRideCanceled();
+            tag = "canceled";
+        }else if(pos==7){
+            fragment=new FragmentProfile();
+            tag = "profil";
+        }else if(pos==10){
+            fragment=new FragmentRideBookingNew();
+            tag = "new_book";
+        }else if(pos==11){
+            fragment=new FragmentRideBookingConfirmed();
+            tag = "confrimed_book";
+        }else if(pos==12){
+            fragment=new FragmentRideBookingCanceled();
+            tag = "rejected_book";
+        }else if(pos==13){
+            fragment=new FragmentFavoriteRide();
+            tag = "rejected_book";
+        }else if(pos==14){
+            fragment=new FragmentLocationVehicule();
+            tag = "vehicle_rent";
+        }else if(pos==15){
+            fragment=new FragmentMyLocationVehicule();
+            tag = "vehicle_rented";
+        }else if(pos==16){
+            fragment=new FragmentMyWallet();
+            tag = "my_wallet";
+        }else if(pos==17){
+            openBrowser(context, "https://codecanyon.net/item/taxi-cab-on-demand-taxi/25137864");
+        }/*else if(pos==10){
                 fragment=new Fragment();
                 tag = "historic";
 //            else if(pos==9)
@@ -1208,66 +1109,13 @@ public class MainActivity extends AppCompatActivity implements TaskLoadedCallbac
 //        else if(pos==6)
 //            openBrowser();
             }*/else if(pos==0){
-                M.logOut(context);
-                prefManager.setFirstTimeLaunch7(true);
-                Intent mIntent = new Intent(context, LoginActivity.class);
-                mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                activity.finish();
-                context.startActivity(mIntent);
-            }
-        }else{
-            if(pos==1) {
-                fragment = new FragmentDashboard();
-                tag = "dashboard";
-            }else if(pos==2){
-                fragment=new FragmentRideNewDriver();
-                tag = "new";
-            }else if(pos==3){
-                fragment=new FragmentRideConfirmedDriver();
-                tag = "confirmed";
-            }else if(pos==4){
-                fragment=new FragmentRideOnRideDriver();
-                tag = "on_ride";
-            }else if(pos==5){
-                fragment=new FragmentRideCompletedDriver();
-                tag = "completed";
-            }else if(pos==6){
-                fragment=new FragmentRideCanceledDriver();
-                tag = "canceled";
-            }else if(pos==7){
-                fragment=new FragmentProfile();
-                tag = "profil";
-            }else if(pos==10){
-                fragment=new FragmentRideBookingNewDriver();
-                tag = "new_book";
-            }else if(pos==11){
-                fragment=new FragmentRideBookingConfirmedDriver();
-                tag = "confrimed_book";
-            }else if(pos==12){
-                fragment=new FragmentRideBookingRejectedDriver();
-                tag = "rejected_book";
-            }else if(pos==13){
-                openBrowser(context, "https://codecanyon.net/item/taxi-cab-on-demand-taxi/25137864");
-            }/*else if(pos==2){
-                fragment=new FragmentMesCourses();
-                tag = "mes_courses";
-//            else if(pos==3)
-//                fragment=new FragmentMessage();
-            }else if(pos==4){
-                fragment=new FragmentProfile();
-                tag = "profile";
-//        else if(pos==6)
-//            openBrowser();
-            }*/else if(pos==0){
-                M.logOut(context);
-                prefManager.setFirstTimeLaunch7(true);
-                Intent mIntent = new Intent(context, LoginActivity.class);
-                mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                activity.finish();
-                context.startActivity(mIntent);
-            }
+            M.logOut(context);
+            prefManager.setFirstTimeLaunch7(true);
+            Intent mIntent = new Intent(context, LoginActivity.class);
+            mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            activity.finish();
+            context.startActivity(mIntent);
         }
 
         if(fragment!=null) {

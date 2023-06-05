@@ -120,6 +120,7 @@
                 android:text="@string/create_customer_account" />
 
             <TextView
+                android:visibility="gone"
                 android:textStyle="normal"
                 android:gravity="center"
                 android:layout_marginBottom="0dp"

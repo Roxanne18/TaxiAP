@@ -1215,8 +1215,6 @@ public class FragmentHome extends Fragment implements OnMapReadyCallback, Google
         if (location != null) {
             if(currentMarker != null)
                 currentMarker.remove();
-            if(!M.getUserCategorie(context).equals("user_app"))
-                new setCurrentLocation().execute(String.valueOf(location.getLatitude()),String.valueOf(location.getLongitude()));
         }
     }
 

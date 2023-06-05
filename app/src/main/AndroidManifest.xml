@@ -23,10 +23,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity
-            android:name="com.heven.taxicabondemandtaxi.activity.DriverVehicleActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -75,18 +71,6 @@
                 <data android:scheme="${applicationId}.braintree" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.heven.taxicabondemandtaxi.activity.ChooseNIActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="com.heven.taxicabondemandtaxi.activity.ChooseLicenceActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="com.heven.taxicabondemandtaxi.activity.ChoosePhotoActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.heven.taxicabondemandtaxi.activity.SubscribeActivity"
             android:screenOrientation="portrait"

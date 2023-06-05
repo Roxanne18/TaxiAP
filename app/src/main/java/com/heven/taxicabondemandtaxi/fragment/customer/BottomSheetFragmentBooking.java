@@ -285,7 +285,7 @@ public class BottomSheetFragmentBooking extends BottomSheetDialogFragment {
                 else
                     path = path+"|"+latLng.latitude+","+latLng.longitude;
             }
-            final String STATIC_MAP_API_ENDPOINT = "http://maps.googleapis.com/maps/api/staticmap?size=1000x300&markers="+loc1.getLatitude()+","+loc1.getLongitude()+"|"+loc2.getLatitude()+","+loc2.getLongitude()+"&path=color:0x000000|"+path+"&sensor=false&key=AIzaSyB9pYFPSnzYV-IkWHTe0PXciACAsVwJU0E";
+            final String STATIC_MAP_API_ENDPOINT = "http://maps.googleapis.com/maps/api/staticmap?size=1000x300&markers="+loc1.getLatitude()+","+loc1.getLongitude()+"|"+loc2.getLatitude()+","+loc2.getLongitude()+"&path=color:0x000000|"+path+"&sensor=false&key=YOUR_API_KEY_HERE";
 
             // loading model cover using Glide library
             Glide.with((Activity) context)

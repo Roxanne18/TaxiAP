@@ -157,13 +157,7 @@ public class FragmentMyWallet extends Fragment{
         new getToken().execute();
         new getWallet().execute();
 
-        if(!M.getUserCategorie(context).equals("user_app")){
-            layout_transaction.setVisibility(View.GONE);
-            input_edit_amount.setVisibility(View.GONE);
-            intput_layout_amount.setVisibility(View.GONE);
-            add.setVisibility(View.GONE);
-        }else
-            new getAllTransaction().execute();
+        new getAllTransaction().execute();
 
         return view;
     }

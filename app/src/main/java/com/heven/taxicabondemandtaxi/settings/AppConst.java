@@ -11,14 +11,10 @@ import android.graphics.Typeface;
 
 public class AppConst {
 
-//    public static final String Server_url ="http://192.168.137.1/on_demand_taxi_webservice/";
-    public static final String Server_url ="http://projets.hevenbf.com/on_demand_taxi/on_demand_taxi_webservice/";
-//    public static final String Server_urlMain ="http://192.168.137.1/on_demand_taxi/";
-    public static final String Server_urlMain ="http://projets.hevenbf.com/on_demand_taxi/";
-//    public static final String API_GET_TOKEN = "http://192.168.173.1/on_demand_taxi_webservice/Braintree/main.php";
-    public static final String API_GET_TOKEN = "http://projets.hevenbf.com/on_demand_taxi/on_demand_taxi_webservice/braintree/main.php";
-//    public static final String API_CHECK_OUT = "http://192.168.173.1/on_demand_taxi_webservice/Braintree/checkout.php";
-    public static final String API_CHECK_OUT = "http://projets.hevenbf.com/on_demand_taxi/on_demand_taxi_webservice/braintree/checkout.php";
+    public static final String Server_url ="http://192.168.137.1/on_demand_taxi_webservice/";
+    public static final String Server_urlMain ="http://192.168.137.1/on_demand_taxi/";
+    public static final String API_GET_TOKEN = "http://192.168.173.1/on_demand_taxi_webservice/Braintree/main.php";
+    public static final String API_CHECK_OUT = "http://192.168.173.1/on_demand_taxi_webservice/Braintree/checkout.php";
     public static final String MAIN = Server_url;
 
     public static String fcm_id;

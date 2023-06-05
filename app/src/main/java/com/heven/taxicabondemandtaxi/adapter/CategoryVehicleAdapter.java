@@ -24,7 +24,6 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.heven.taxicabondemandtaxi.R;
-import com.heven.taxicabondemandtaxi.activity.DriverVehicleActivity;
 import com.heven.taxicabondemandtaxi.model.CategoryVehiclePojo;
 import com.heven.taxicabondemandtaxi.settings.AppConst;
 
@@ -82,7 +81,6 @@ public class CategoryVehicleAdapter extends RecyclerView.Adapter<CategoryVehicle
 
         if(categoryVehiclePojo.getStatut().equals("yes")) {
             holder.linear.setBackground(mContext.getResources().getDrawable(R.drawable.custom_driver_select));
-            DriverVehicleActivity.id_categorie_vehicle = String.valueOf(categoryVehiclePojo.getId());
         }else
             holder.linear.setBackground(null);
 
@@ -112,7 +110,6 @@ public class CategoryVehicleAdapter extends RecyclerView.Adapter<CategoryVehicle
             public void onClick(View v) {
                 CategoryVehiclePojo categoryVehiclePojo = albumList.get(position);
                 categoryVehiclePojo.setStatut("yes");
-                DriverVehicleActivity.id_categorie_vehicle = String.valueOf(categoryVehiclePojo.getId());
                 for(int i=0; i<albumList.size(); i++){
                     if(albumList.get(i).getId() != categoryVehiclePojo.getId())
                         albumList.get(i).setStatut("no");

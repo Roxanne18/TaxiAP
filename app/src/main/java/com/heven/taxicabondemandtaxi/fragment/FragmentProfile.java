@@ -157,10 +157,7 @@ public class FragmentProfile extends Fragment {
         input_model.setText(M.getVehicleModel(context));
         input_color.setText(M.getColor(context));
         input_numberplate.setText(M.getVehicleNumberPlate(context));
-        if(!M.getUserCategorie(context).equals("user_app")){
-            layout_vehicle_info.setVisibility(View.VISIBLE);
-        }else
-            layout_vehicle_info.setVisibility(View.GONE);
+        layout_vehicle_info.setVisibility(View.GONE);
 
         edit_nom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -422,7 +419,7 @@ public class FragmentProfile extends Fragment {
                                 JSONObject msg = json.getJSONObject("msg");
                                 String etat = msg.getString("etat");
                                 if(etat.equals("1")){
-                                    Toast.makeText(context, "Ok", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(context, "Ok", Toast.LENGTH_SHORT).show();
                                     if(!msg.getString("image").equals("")) {
                                         M.setPhoto(msg.getString("image"), context);
                                         // loading model cover using Glide library
@@ -458,15 +455,15 @@ public class FragmentProfile extends Fragment {
                                                     }
                                                 })
                                                 .into(MainActivity.user_photo);
-                                        Toast.makeText(context, "Photo changée", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, "Photo changed", Toast.LENGTH_SHORT).show();
                                     }else{
                                         M.setPhoto("", context);
-                                        Toast.makeText(context, "Photo supprimée", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, "Photo deleted", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
                                         MainActivity.user_photo.setImageDrawable(context.getResources().getDrawable(R.drawable.user_profile));
                                     }
                                 }else{
-                                    Toast.makeText(context, "Photo non changée", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "Photo not changed", Toast.LENGTH_SHORT).show();
                                     progressBar.setVisibility(View.GONE);
                                     user_photo.setImageBitmap(bitmap_anc);
                                 }
@@ -490,10 +487,7 @@ public class FragmentProfile extends Fragment {
                     Map<String, String> params = new HashMap<String, String>();
                     params.put("image",img_data);
                     params.put("image_name",img_name);
-                    if(M.getUserCategorie(context).equals("user_app"))
-                        params.put("id_user",M.getID(context));
-                    else
-                        params.put("id_driver",M.getID(context));
+                    params.put("id_user",M.getID(context));
                     params.put("user_cat",M.getUserCategorie(context));
                     return params;
                 }
@@ -1896,7 +1890,6 @@ public class FragmentProfile extends Fragment {
                     params.put("user_cat",M.getUserCategorie(context));
                     params.put("anc_mdp",anc_mdp);
                     params.put("new_mdp",new_mdp);
-                    params.put("user_cat",M.getUserCategorie(context));
                     return params;
                 }
 
